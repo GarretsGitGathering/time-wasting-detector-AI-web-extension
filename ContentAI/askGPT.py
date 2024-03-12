@@ -11,7 +11,7 @@ from langchain_openai import ChatOpenAI
 
 
 # Set OpenAI API key
-os.environ["OPENAI_API_KEY"] = "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"  
+os.environ["OPENAI_API_KEY"] = "***APIKEY***"  
 
 def determine_timewasting_percentage(title, parsed_data, url):
     # Data model
