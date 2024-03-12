@@ -8,6 +8,11 @@ from sklearn.preprocessing import LabelEncoder
 
 import os, pickle
 
+
+###     this is one of two approaches the project could take:
+###     in this case we build our own AI model and collect our own data.
+
+
 # define model name
 filename = "model.sav"
 
