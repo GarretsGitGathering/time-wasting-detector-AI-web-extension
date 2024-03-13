@@ -1,1 +1,1 @@
-from ContentAI import main
+from ContentAI import DIYmodel
