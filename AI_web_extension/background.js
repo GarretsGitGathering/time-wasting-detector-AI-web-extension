@@ -33,6 +33,12 @@ function getPageTitle() {
         callback(error, null);
       });
   }
+
+  // Function to update the status tag
+  function updateStatus(message) {
+    const statusElement = document.getElementById('status');
+    statusElement.textContent = message;
+  }
   
   // Example usage:
   // getPageTitle((error, title) => {
@@ -85,8 +91,11 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
                 const storedData = JSON.stringify(storedData_json);
                 const response_string = JSON.stringify(response);
 
+                const newData = storedData+response_string;
+                const parsedNewData = newData.replace(/\\/g, '');
+
                 //storeData("stored_data", response);
-                chrome.storage.local.set({ 'stored_data': storedData+response_string}, function() {
+                chrome.storage.local.set({ 'stored_data': parsedNewData}, function() {
                   console.log('Data stored successfully');
               });
             });
@@ -109,7 +118,9 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
       if (error) {
         sendResponse({ error: error.message });
       } else {
-        sendResponse({ success: true });
+        //sendResponse({ success: true });
+        //const response_json = JSON.stringify(response)
+        chrome.runtime.sendMessage({ action: 'updateStatus', message: response });
       }
     });
   });

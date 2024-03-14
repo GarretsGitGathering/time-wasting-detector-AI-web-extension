@@ -26,4 +26,14 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     });
   });
+  // Listen for messages from the background script
+  chrome.runtime.onMessage.addListener(function(message) {
+    // Check if the message is to update the status
+    if (message.action === 'updateStatus') {
+      const messageString = message.message["context prediction"];
+      // Update the status tag
+      const statusElement = document.getElementById('status');
+      statusElement.textContent = messageString;
+    }
+  });
 });

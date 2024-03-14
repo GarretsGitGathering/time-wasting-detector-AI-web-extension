@@ -3,7 +3,7 @@ import google.generativeai as genai
 
 def identify_bad_habits(history):
 
-    genai.configure(api_key="***API_KEY***")
+    genai.configure(api_key="***APIKEY***")
 
     model = genai.GenerativeModel('gemini-pro')
     chat = model.start_chat()
@@ -14,7 +14,7 @@ def identify_bad_habits(history):
                                  here is the log:\n
                                  """+history+"""\n
                                  \n
-                                 Based on this history log, please make a personalized list on how the student tends to get distracted\n
+                                 Based on this history log, please identify on what materials the student get's distracted on\n
                                  """)
 
     response.resolve()

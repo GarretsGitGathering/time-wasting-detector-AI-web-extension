@@ -21,7 +21,7 @@ def handle_request():
     """Function to handle POST requests"""
     data = request.get_data(as_text=True)  # Get request data
     print("RECEIVED DATA")
-    data = data.replace('\\\\\\"', '')
+    data = data.replace('\\', '')
     print("data:" + data)
 
     print("-------------------------------")

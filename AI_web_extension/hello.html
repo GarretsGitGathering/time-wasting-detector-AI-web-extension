@@ -4,12 +4,21 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Extension Popup</title>
-  <script src="popup.js"></script>
+  <link rel="stylesheet" href="popup.css">
 </head>
 <body>
-  <div>
-    <button id="sendRequestButton">Test My Webpage</button>
-    <button id="getBehaviour">Get My Behaviour</button>
+  <div class="popup-content">
+    <h1 class="popup-heading">Send Webpage Information</h1>
+    <p class="popup-description">Click the button below to send webpage information to the Content Moderating AI.</p>
+    <button id="sendRequestButton" class="popup-button">Send to Content AI</button>
+    <hr class="popup-divider">
+    <h1 class="popup-heading">Send Content AI History</h1>
+    <p class="popup-description">Click the button below to send Content AI history to the Behavior Learning AI.</p>
+    <button id="getBehaviour" class="popup-button">Send to Behavior AI</button>
   </div>
+  <div class="status-area">
+    <div id="status"></div>
+  </div>
+  <script src="popup.js"></script>
 </body>
 </html>
