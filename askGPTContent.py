@@ -5,20 +5,14 @@ from langchain.output_parsers.openai_tools import PydanticToolsParser
 from langchain.prompts import PromptTemplate
 from langchain_openai import ChatOpenAI
 
-import pathlib
-import textwrap
-
 import google.generativeai as genai
 from PIL import Image
-from IPython.display import display_pdf, Markdown
 
 ###     this is one of two approaches the project could take:
 ###     we ask GPT if the webpage is time-wasting based on some inputs we collect with the web extension.
 
-
 # Set OpenAI API key
 os.environ["OPENAI_API_KEY"] = "***API_KEY***"  
-os.environ["GEMENI_API_KEY"] = "***API_KEY***"    # use `os.getenv('GOOGLE_API_KEY')` to fetch an environment variable.
 
 def determine_timewasting_percentage(title, parsed_data, url):
     # Data model
@@ -60,7 +54,7 @@ def determine_timewasting_percentage(title, parsed_data, url):
 
 def image_classification(image_filename):
 
-    genai.configure(api_key="AIzaSyAke1uPmzMR3dpXSE--PXdfEsNUFaMOvsQ")
+    genai.configure(api_key="***API_KEY***")
 
     model = genai.GenerativeModel("gemini-pro-vision")
 

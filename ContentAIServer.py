@@ -1,5 +1,4 @@
 from flask import Flask, request, jsonify  # Import Flask and other necessary modules
-import socket  # Import socket module for TCP communication
 import threading  # Import threading module for concurrent execution
 import json
 from flask_cors import CORS

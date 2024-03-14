@@ -55,10 +55,11 @@ function getPageTitle() {
   
 
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
-  if (request.action === 'sendHttpPostRequest') {
+  if (request.action === 'sendContentAIData') {
     // Capture webpage title
     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
       const title = tabs[0].title; // Get the title of the current webpage
+      const url = tabs[0].url      // Get the url of the current webpage
 
       // Capture the screenshot and include it in the postData object
       chrome.tabs.captureVisibleTab(null, { format: 'png' }, function(dataUrl) {
@@ -68,7 +69,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
         const postData = {
           title: title, // Include the current page title
           parsed_data: "some_data", // Placeholder for parsed data, replace with actual parsed data
-          url: "https://youtube.com/8719879", // Placeholder for URL, replace with actual URL
+          url: url, // Placeholder for URL, replace with actual URL
           screenshot: screenshotData // Include the screenshot data
         };
 
@@ -77,7 +78,18 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
           if (error) {
             sendResponse({ error: error.message });
           } else {
-            sendResponse({ success: true });
+              // Retrieve data
+              chrome.storage.local.get('stored_data', function(result) {
+                const storedData_json = result['stored_data'];
+
+                const storedData = JSON.stringify(storedData_json);
+                const response_string = JSON.stringify(response);
+
+                //storeData("stored_data", response);
+                chrome.storage.local.set({ 'stored_data': storedData+response_string}, function() {
+                  console.log('Data stored successfully');
+              });
+            });
           }
         });
       });
@@ -85,6 +97,22 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 
     return true; // Indicates that sendResponse will be called asynchronously
   }
-});
 
-  
+  if (request.action === 'sendStoredData') {
+
+    // Retrieve data
+    chrome.storage.local.get('stored_data', function(result) {
+      const storedData = result['stored_data'];
+    
+
+    sendHttpPostRequest('http://127.0.0.1:55575', storedData, function(error, response) {
+      if (error) {
+        sendResponse({ error: error.message });
+      } else {
+        sendResponse({ success: true });
+      }
+    });
+  });
+    return true;
+  }
+});

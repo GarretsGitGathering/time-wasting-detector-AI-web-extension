@@ -5,7 +5,20 @@ document.addEventListener('DOMContentLoaded', function() {
     const postData = { key: 'value' };
     
     // Send message to background script to send HTTP POST request
-    chrome.runtime.sendMessage({ action: 'sendHttpPostRequest', data: postData }, function(response) {
+    chrome.runtime.sendMessage({ action: 'sendContentAIData', data: postData }, function(response) {
+      if (response && response.success) {
+        alert('HTTP POST Request Successful');
+      } else {
+        alert('Error: HTTP POST Request Failed');
+      }
+    });
+  });
+
+  document.getElementById('getBehaviour').addEventListener('click', function() {
+    // Data to be sent in the HTTP POST request
+    const postData = { key: 'value' };
+    // Send message to background script to send HTTP POST request
+    chrome.runtime.sendMessage({ action: 'sendStoredData', data: postData }, function(response) {
       if (response && response.success) {
         alert('HTTP POST Request Successful');
       } else {

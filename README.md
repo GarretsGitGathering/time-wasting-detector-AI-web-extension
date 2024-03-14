@@ -10,6 +10,7 @@ Currently the project is still in development stages, currently it uses:
 
 ## Here are some Proof of Concept images
 
+![Example Image](/imgs/whole_setup.png)
 ![Example Image](/imgs/screenshot_example.png)
 ![Example Image](/imgs/server_response.png)
 ![Example Image](/imgs/request_example.png)
