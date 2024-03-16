@@ -1,4 +1,5 @@
 var title = "";
+let booleanParameter = false;
 function getPageTitle() {
     chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
       if (tabs && tabs[0]) {
@@ -61,51 +62,58 @@ function getPageTitle() {
   
 
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
-  if (request.action === 'sendContentAIData') {
-    // Capture webpage title
-    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-      const title = tabs[0].title; // Get the title of the current webpage
-      const url = tabs[0].url      // Get the url of the current webpage
 
-      // Capture the screenshot and include it in the postData object
-      chrome.tabs.captureVisibleTab(null, { format: 'png' }, function(dataUrl) {
-        const screenshotData = dataUrl; // Use the captured data URL as screenshot data
-    
-        // Create the postData object
-        const postData = {
-          title: title, // Include the current page title
-          parsed_data: "some_data", // Placeholder for parsed data, replace with actual parsed data
-          url: url, // Placeholder for URL, replace with actual URL
-          screenshot: screenshotData // Include the screenshot data
-        };
-
-        // Send HTTP POST request with postData
-        sendHttpPostRequest('http://127.0.0.1:55570', postData, function(error, response) {
-          if (error) {
-            sendResponse({ error: error.message });
-          } else {
-              // Retrieve data
-              chrome.storage.local.get('stored_data', function(result) {
-                const storedData_json = result['stored_data'];
-
-                const storedData = JSON.stringify(storedData_json);
-                const response_string = JSON.stringify(response);
-
-                const newData = storedData+response_string;
-                const parsedNewData = newData.replace(/\\/g, '');
-
-                //storeData("stored_data", response);
-                chrome.storage.local.set({ 'stored_data': parsedNewData}, function() {
-                  console.log('Data stored successfully');
-              });
-            });
-          }
-        });
-      });
-    });
-
-    return true; // Indicates that sendResponse will be called asynchronously
+  if (request.action === 'toggleBooleanParameter') {
+    // Toggle the boolean parameter
+    booleanParameter = !booleanParameter;
+    console.log('Boolean parameter toggled to:', booleanParameter);
+    chrome.runtime.sendMessage({ action: 'updateButtonAppearance', value: booleanParameter });
   }
+
+    setInterval(function() {
+      if (booleanParameter) {
+        // Capture webpage title
+        chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+          const title = tabs[0].title; // Get the title of the current webpage
+          const url = tabs[0].url      // Get the url of the current webpage
+
+          // Capture the screenshot and include it in the postData object
+          chrome.tabs.captureVisibleTab(null, { format: 'png' }, function(dataUrl) {
+            const screenshotData = dataUrl; // Use the captured data URL as screenshot data
+        
+            // Create the postData object
+            const postData = {
+              title: title, // Include the current page title
+              parsed_data: "some_data", // Placeholder for parsed data, replace with actual parsed data
+              url: url, // Placeholder for URL, replace with actual URL
+              screenshot: screenshotData // Include the screenshot data
+            };
+
+            // Send HTTP POST request with postData
+            sendHttpPostRequest('http://127.0.0.1:55570', postData, function(error, response) {
+              if (error) {
+                sendResponse({ error: error.message });
+              } else {
+                  // Retrieve data
+                  chrome.storage.local.get('stored_data', function(result) {
+                    const storedData_json = result['stored_data'];
+
+                    const storedData = JSON.stringify(storedData_json);
+                    const response_string = JSON.stringify(response);
+
+                    const newData = storedData+response_string;
+                    const parsedNewData = newData.replace(/\\/g, '');
+
+                    //storeData("stored_data", response);
+                    chrome.storage.local.set({ 'stored_data': parsedNewData}, function() {
+                      console.log('Data stored successfully');
+                  });
+                });
+              }
+            });
+          });
+        });}
+  }, 60 * 1000);
 
   if (request.action === 'sendStoredData') {
 

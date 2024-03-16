@@ -10,8 +10,11 @@ Currently the project is still in development stages, currently it uses:
  - langchain API libraries
  - Gemini API libraries
 
+To start sending packets, click the top button to send packets to the Content AI server (will send packets when it is lue). To get a synopsis of how you tend to get distracted, click the bottom button to send your history to the Behaviour learning AI.
+
 ## Here are some Proof of Concept images
 
+![Example Image](/imgs/not_on.png)
 ![Example Image](/imgs/Full_Functionality.png)
 ![Example Image](/imgs/screenshot_example.png)
 ![Example Image](/imgs/server_response.png)

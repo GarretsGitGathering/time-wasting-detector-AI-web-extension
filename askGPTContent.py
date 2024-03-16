@@ -12,7 +12,7 @@ from PIL import Image
 ###     we ask GPT if the webpage is time-wasting based on some inputs we collect with the web extension.
 
 # Set OpenAI API key
-os.environ["OPENAI_API_KEY"] = "***APIKEY***"  
+os.environ["OPENAI_API_KEY"] = "***APIKEY***"
 
 def determine_timewasting_percentage(title, parsed_data, url):
     # Data model
@@ -73,7 +73,7 @@ def main():
     print(determine_timewasting_percentage("funny memes compilation", "#funnymemes", "https://youtube.com/video/37958274985"))
     print(determine_timewasting_percentage("how to take the derivative of a function", "#calculushelp", "https://calculus.com"))
 
-    #print(image_classification("test.png"))   test.png doesnt exist right now
+    print(image_classification(Image.open("imgs/Full_Functionality.png")))  
 
 if __name__ == "__main__":
     main()
