@@ -113,7 +113,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
             });
           });
         });}
-  }, 60 * 1000);
+  }, 10 * 1000);
 
   if (request.action === 'sendStoredData') {
 

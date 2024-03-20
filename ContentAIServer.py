@@ -31,7 +31,7 @@ def process_prediction(data):
     decoded_screenshot = base64.b64decode(encoded_screenshot)
     screenshot_status = image_classification(Image.open(BytesIO(decoded_screenshot)))
 
-    return context_status, screenshot_status  # Placeholder function, replace with actual implementation
+    return context_status, screenshot_status, title  # Placeholder function, replace with actual implementation
 
 def start_flask_server():
     """Function to start Flask server"""
@@ -48,14 +48,15 @@ def handle_request():
     print("-------------------------------")
 
     print("PROCESSING DATA")
-    context_status, screenshot_status = process_prediction(data)  # Process request data
+    context_status, screenshot_status, title = process_prediction(data)  # Process request data
+    print("webpage title: "+title)
     print("context prediction: "+context_status)
     print("screenshot prediction: "+screenshot_status)
 
     print("-------------------------------")
 
     print("SENDING STATUS BACK TO CLIENT")
-    json_prediction = jsonify({'context prediction': context_status, 'screenshot prediction': screenshot_status})
+    json_prediction = jsonify({'context prediction': context_status, 'screenshot prediction': screenshot_status, 'title': title})
     return json_prediction  # Return processed data as JSON response
 
 if __name__ == '__main__':
